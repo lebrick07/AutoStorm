@@ -8,6 +8,7 @@ metadata:
     {{ $key }}: {{ $value | quote }}
     {{- end }}
 spec:
+  ingressClassName: {{ .Values.ingress.className }}
   rules:
     {{- range .Values.ingress.hosts }}
     - host: {{ .host }}
@@ -20,7 +21,7 @@ spec:
               service:
                 name: autostorm
                 port:
-                  number: 80
+                  number: {{ $.Values.service.port }}
           {{- end }}
     {{- end }}
   {{- if .Values.ingress.tls }}
