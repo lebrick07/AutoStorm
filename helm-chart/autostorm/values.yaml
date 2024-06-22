@@ -4,16 +4,19 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
-  port: 80
+  type: NodePort
+  port: 8080
+  targetPort: 8080
+  nodePort: 31001
 
 ingress:
-  enabled: false
-  className: ""
-  annotations: {}
+  enabled: true
+  className: "nginx"  # This should match your Ingress class
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: chart-example.local
+    - host: localhost
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls: []
