@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>AutoStorm</title>
+  </head>
+  <body>
+    <h1>Welcome to AutoStorm</h1>
+    <form id="prompt-form">
+      <textarea id="prompt" rows="4" cols="50"></textarea>
+      <button type="submit">Generate</button>
+    </form>
+    <pre id="response"></pre>
+    <script>
+      document.getElementById('prompt-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const prompt = document.getElementById('prompt').value;
+        const response = await fetch('/api/generate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt }),
+        });
+        const result = await response.json();
+        document.getElementById('response').textContent = result.response;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autostorm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autostorm
+  template:
+    metadata:
+      labels:
+        app: autostorm
+    spec:
+      containers:
+        - name: autostorm
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: FLASK_ENV
+              value: "production"
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-secret
+                  key: OPENAI_API_KEY
